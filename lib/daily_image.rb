@@ -1,5 +1,6 @@
 require "daily_image/version"
+require "daily_image/poem"
 
 module DailyImage
-  # Your code goes here...
+
 end
