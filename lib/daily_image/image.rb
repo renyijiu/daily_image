@@ -1,5 +1,6 @@
 require "date"
 require "vips"
+require "daily_image/poem"
 
 module DailyImage
   class Image
@@ -14,12 +15,14 @@ module DailyImage
 
       image = Vips::Image.black(@width, @height)
       image = draw_top_half(image)
+      image = draw_down_half(image)
 
       image.write_to_file(output, Q: 100)
     end
 
     private
 
+    # 画出上半部分
     def draw_top_half(image)
       image = draw_background(image)
       image = draw_frame(image)
@@ -29,6 +32,17 @@ module DailyImage
       image = draw_progress_txt(image)
 
       draw_progress(image)
+    end
+
+    def draw_middle(image)
+      draw_dividing_line(image)
+    end
+
+    # 画出下半部分
+    def draw_down_half(image)
+      image = draw_down_frame(image)
+
+      draw_poem(image)
     end
 
     # 设置背景颜色
@@ -128,6 +142,67 @@ module DailyImage
       image.draw_rect(used_color, x, y, used_width, height, fill: true)
     end
 
+    # 画出下半部分边框
+    def draw_down_frame(image)
+      frame_color = [151, 158, 161]
+
+      offset = 50
+      width = @width - 2 * offset
+      height = (@height * 0.5 - 2 * offset).to_i
+
+      x = offset
+      y = (@height * 0.5 + offset).to_i
+
+      image.draw_rect(frame_color, x, y, width, height, fill: false)
+    end
+
+    def draw_poem(image)
+      flag, res = DailyImage::Poem.new.txt
+
+      if flag
+        title = res['origin'] || '无题'
+        content = res['content'] || '唯有梦想与爱情，不可辜负。'
+
+        author = res['author'] || '佚名'
+        author = "-- #{author}"
+
+        image = draw_poem_title(image, title)
+        image = draw_poem_content(image, content)
+
+        image = draw_poem_author(image, author)
+      end
+
+      image
+    end
+
+    def draw_poem_title(image, title)
+      text = generate_text_image(title, dpi: 110)
+
+      x = (@width - text.width) / 2
+      y = (@height * 0.65).to_i
+
+      image.draw_image text, x, y, mode: :set
+    end
+
+    def draw_poem_content(image, content)
+      text = generate_text_image(content, dpi: 135)
+
+      x = (@width - text.width) / 2
+      y = (@height * 0.75).to_i
+
+      image.draw_image text, x, y, mode: :set
+    end
+
+    def draw_poem_author(image, author)
+      text = generate_text_image(author)
+
+      x = @width - 60 - text.width
+      y = (@height * 0.85).to_i
+
+      image.draw_image text, x, y, mode: :set
+    end
+
+    # 计算当天时间在一年的百分比
     def percent_of_year
       year = Date.today.year
       days = Date.new(year, 12, 31).yday
@@ -142,7 +217,7 @@ module DailyImage
       text_color = opts.fetch(:text_color, [100, 145, 170])
       bg_color = opts.fetch(:bg_color, [255, 255, 255])
 
-      text_image = Vips::Image.text text, dpi: dpi, font: 'Arial'
+      text_image = Vips::Image.text text, dpi: dpi, font: 'Hiragino Sans GB'
       text_image = text_image.embed 0, 0, text_image.width, text_image.height
 
       text_image.ifthenelse(text_color, bg_color, blend: true)
