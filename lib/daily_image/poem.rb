@@ -32,7 +32,7 @@ module DailyImage
     end
 
     def format_res(res)
-      return [false, "Network error"] unless res.is_a?(Net::HTTPSuccess)
+      return [false, {}] unless res.is_a?(Net::HTTPSuccess)
 
       [true, JSON.parse(res.body)]
     end
