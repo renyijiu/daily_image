@@ -1,6 +1,3 @@
-require "date"
-require "vips"
-require "daily_image/poem"
 
 module DailyImage
   class Image
@@ -11,13 +8,10 @@ module DailyImage
     end
 
     def draw_image
-      output = File.join(Dir.pwd, "daily_#{Date.today}.jpg" )
-
       image = Vips::Image.black(@width, @height)
       image = draw_top_half(image)
-      image = draw_down_half(image)
 
-      image.write_to_file(output, Q: 100)
+      draw_down_half(image)
     end
 
     private
