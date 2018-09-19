@@ -1,0 +1,145 @@
+#!/usr/bin/env ruby
+
+require "bundler/setup"
+require "optparse"
+require "json"
+require "daily_image"
+
+class DailyImageOptparser
+
+  class Parser
+    attr_accessor :bg_color,
+                  :frame_color,
+                  :text_color,
+                  :date_color,
+                  :unused_color,
+                  :used_color,
+                  :font,
+                  :out_frame_offset,
+                  :in_frame_offset,
+                  :output_path
+
+    def initialize
+    end
+
+    def define_options(parser)
+      parser.banner = "Usage: daily_image [options]"
+      parser.separator ""
+      parser.separator "Specific options:"
+
+      bg_color_option(parser)
+      frame_color_option(parser)
+      text_color_option(parser)
+      date_color_option(parser)
+      unused_color_option(parser)
+      used_color_option(parser)
+      out_frame_offset_option(parser)
+      in_frame_offset_option(parser)
+      font_option(parser)
+      output_path_option(parser)
+
+      parser.separator ""
+      parser.separator "Common options:"
+
+      parser.on_tail("-h", "--help", "Show the help message") do
+        puts parser
+        exit
+      end
+      # Another typical switch to print the version.
+      parser.on_tail("-v", "--version", "Show version") do
+        puts DailyImage::VERSION
+        exit
+      end
+    end
+
+    private
+
+    def bg_color_option(parser)
+      parser.on("-b", "--bg_color BG_COLOR", "the image's background color") do |bg_color|
+        self.bg_color = bg_color
+      end
+    end
+
+    def frame_color_option(parser)
+      parser.on("-r", "--frame_color FRAME_COLOR", "the image's frame color") do |frame_color|
+        self.frame_color = frame_color
+      end
+    end
+
+    def text_color_option(parser)
+      parser.on("-t", "--text_color TEXT_COLOR", "the image's text color") do |text_color|
+        self.text_color = text_color
+      end
+    end
+
+    def date_color_option(parser)
+      parser.on("-d", "--date_color DATE_COLOR", "the middle date's text color") do |date_color|
+        self.date_color = date_color
+      end
+    end
+
+    def unused_color_option(parser)
+      parser.on("-n", "--unused_color UNUSED_COLOR", "unused color of the progress bar") do |unused_color|
+        self.unused_color = unused_color
+      end
+    end
+
+    def used_color_option(parser)
+      parser.on("-u", "--used_color USED_COLOR", "used color of the progress bar") do |used_color|
+        self.used_color = used_color
+      end
+    end
+
+    def out_frame_offset_option(parser)
+      parser.on("-o", "--out_offset OUT_FRAME_OFFSET", "the outside frame offset") do |out_offset|
+        self.out_frame_offset = out_offset
+      end
+    end
+
+    def in_frame_offset_option(parser)
+      parser.on("-i", "--in_offset IN_FRAME_OFFSET", "the inside frame offset") do |in_offset|
+        self.in_frame_offset = in_offset
+      end
+    end
+
+    def font_option(parser)
+      parser.on("-f", "--font FONT", "the text font") do |font|
+        self.font = font
+      end
+    end
+
+    def output_path_option(parser)
+      parser.on("-s", "--output OUTPUT", "the output path, save the new image") do |output|
+        self.output_path = output
+      end
+    end
+
+  end
+
+  attr_reader :parser, :options
+  def parse(args)
+    @options = Parser.new
+    @args = OptionParser.new do |parser|
+      @options.define_options(parser)
+      parser.parse!(args)
+    end
+    @options
+  end
+end
+
+parser = DailyImageOptparser.new
+options = parser.parse(ARGV)
+
+DailyImage.configure do |config|
+  config.bg_color = JSON.parse(options.bg_color) if options.bg_color
+  config.frame_color = JSON.parse(options.frame_color) if options.frame_color
+  config.text_color = JSON.parse(options.text_color) if options.text_color
+  config.date_color = JSON.parse(options.date_color) if options.date_color
+  config.unused_color = JSON.parse(options.unused_color) if options.unused_color
+  config.used_color = JSON.parse(options.used_color) if options.used_color
+  config.out_frame_offset = options.out_frame_offset.to_i if options.out_frame_offset
+  config.in_frame_offset = options.in_frame_offset.to_i if options.in_frame_offset
+  config.font = options.font if options.font
+end
+
+DailyImage.draw_image(options.output_path)
