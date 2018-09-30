@@ -17,7 +17,8 @@ class DailyImageOptparser
                   :font,
                   :out_frame_offset,
                   :in_frame_offset,
-                  :output_path
+                  :output_path,
+                  :date
 
     def initialize
     end
@@ -37,6 +38,7 @@ class DailyImageOptparser
       in_frame_offset_option(parser)
       font_option(parser)
       output_path_option(parser)
+      date_option(parser)
 
       parser.separator ""
       parser.separator "Common options:"
@@ -73,7 +75,7 @@ class DailyImageOptparser
     end
 
     def date_color_option(parser)
-      parser.on("-d", "--date_color DATE_COLOR", "the middle date's text color") do |date_color|
+      parser.on("-c", "--date_color DATE_COLOR", "the middle date's text color") do |date_color|
         self.date_color = date_color
       end
     end
@@ -114,6 +116,12 @@ class DailyImageOptparser
       end
     end
 
+    def date_option(parser)
+      parser.on("-d", "--date Specific date", "the date you want to generate") do |date|
+        self.date = Date.parse(date.to_s) rescue Date.today
+      end
+    end
+
   end
 
   attr_reader :parser, :options
@@ -142,4 +150,4 @@ DailyImage.configure do |config|
   config.font = options.font if options.font
 end
 
-DailyImage.draw_image(options.output_path)
+DailyImage.draw_image(options.output_path, options.date)

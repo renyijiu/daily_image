@@ -1,6 +1,6 @@
 # DailyImage
 
-日签 Or 日历，生成一张当日的图片，可作为日历。Just For Fun!👏
+日签 Or 日历，生成一张指定日期的图片，可作为日历。Just For Fun!👏
 
 ## 使用
 
@@ -40,10 +40,10 @@ DailyImage.configure do |config|
 end
 
 # 调用方法
-DailyImage.draw_image(output_path)           # 默认图片存放地址，包所在的目录
+DailyImage.draw_image(output_path = nil, date = Date.today)           # 默认图片存放地址，包所在的目录; 默认生成为当日
 
 # 例子
-DailyImage.draw_image('./')
+DailyImage.draw_image('./', '2018-09-30')
 ```
 
 ### 命令行
@@ -58,7 +58,7 @@ Specific options:
     -b, --bg_color BG_COLOR          the image's background color
     -r, --frame_color FRAME_COLOR    the image's frame color
     -t, --text_color TEXT_COLOR      the image's text color
-    -d, --date_color DATE_COLOR      the middle date's text color
+    -c, --date_color DATE_COLOR      the middle date's text color
     -n, --unused_color UNUSED_COLOR  unused color of the progress bar
     -u, --used_color USED_COLOR      used color of the progress bar
     -o OUT_FRAME_OFFSET,             the outside frame offset
@@ -66,6 +66,7 @@ Specific options:
     -i, --in_offset IN_FRAME_OFFSET  the inside frame offset
     -f, --font FONT                  the text font
     -s, --output OUTPUT              the output path, save the new image
+    -d, --date Specific date         the date you want to generate
 
 Common options:
     -h, --help                       Show the help message

@@ -17,11 +17,13 @@ module DailyImage
       DailyImage::Config.instance.configuration
     end
 
-    def draw_image(output_path = nil)
+    def draw_image(output_path = nil, date = Date.today)
       output_path ||= Dir.pwd
-      output_file = File.join(output_path, "daily_#{Date.today}.jpeg")
+      date = Date.parse(date.to_s) rescue Date.today
 
-      image = DailyImage::Image.new.draw_image
+      output_file = File.join(output_path, "daily_#{date}.jpeg")
+
+      image = DailyImage::Image.new(date: date).draw_image
 
       image.write_to_file(output_file, Q: 100)
     end

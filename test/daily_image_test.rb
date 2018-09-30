@@ -41,4 +41,18 @@ class DailyImageTest < Minitest::Test
     assert File.file?(file_path)
     File.delete(file_path)
   end
+
+  def test_should_generate_image_when_set_date
+    (0..10).each do |i|
+      date = Date.today - i
+
+      filename = "daily_#{date}.jpeg"
+      file_path = File.join('./tmp/', filename)
+
+      DailyImage.draw_image('./tmp/', date)
+
+      assert File.file?(file_path)
+      File.delete(file_path)
+    end
+  end
 end

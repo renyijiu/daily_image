@@ -2,9 +2,10 @@
 module DailyImage
   class Image
 
-    def initialize(width = 600, height = 800)
+    def initialize(width = 600, height = 800, date: Date.today)
       @width = width
       @height = height
+      @date = date
     end
 
     def draw_image
@@ -60,7 +61,7 @@ module DailyImage
 
     # 画出中间日期
     def draw_day(image)
-      day = Date.today.day.to_s
+      day = @date.day.to_s
 
       # 生成字体图片
       text = generate_text_image(day, dpi: 1000, text_color: config[:date_color])
@@ -74,7 +75,7 @@ module DailyImage
 
     # 画出左上角日期
     def draw_date(image)
-      date = Date.today.to_s
+      date = @date.to_s
       text = generate_text_image(date, dpi: 150)
 
       # 计算放置位置
@@ -87,7 +88,7 @@ module DailyImage
     # 画出右上角信息
     def draw_week(image)
       week_arr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
-      week = week_arr[Date.today.cwday - 1]
+      week = week_arr[@date.cwday - 1]
 
       text = generate_text_image(week, dpi: 140)
 
@@ -100,7 +101,7 @@ module DailyImage
 
     # 画出进度描述信息
     def draw_progress_txt(image)
-      day = Date.today.yday
+      day = @date.yday
       percent = (percent_of_year * 100).round(2)
       text = "第 #{day} 天，进度已消耗 #{percent}%"
 
@@ -182,8 +183,8 @@ module DailyImage
 
     # 计算当天时间在一年的百分比
     def percent_of_year
-      days = Date.new(Date.today.year, 12, 31).yday
-      current_days = Date.today.yday
+      days = Date.new(@date.year, 12, 31).yday
+      current_days = @date.yday
 
       (current_days.to_f / days).round(4)
     end
