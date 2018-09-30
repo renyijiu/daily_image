@@ -86,8 +86,8 @@ module DailyImage
 
     # 画出右上角信息
     def draw_week(image)
-      week_arr = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六']
-      week = week_arr[Date.today.cwday]
+      week_arr = ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日']
+      week = week_arr[Date.today.cwday - 1]
 
       text = generate_text_image(week, dpi: 140)
 
