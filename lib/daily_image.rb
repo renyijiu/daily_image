@@ -1,6 +1,7 @@
 require "date"
 require "vips"
 require "daily_image/version"
+require "daily_image/lunar_solar_converter"
 require "daily_image/poem"
 require "daily_image/image"
 require "daily_image/config"

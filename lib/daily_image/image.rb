@@ -28,6 +28,7 @@ module DailyImage
       image = draw_day(image)
       image = draw_date(image)
       image = draw_week(image)
+      image = draw_lunar_txt(image)
       image = draw_progress_txt(image)
 
       draw_progress(image)
@@ -75,7 +76,7 @@ module DailyImage
 
     # 画出左上角日期
     def draw_date(image)
-      date = @date.to_s
+      date = @date.strftime("%Y.%m.%d")
       text = generate_text_image(date, dpi: 150)
 
       # 计算放置位置
@@ -93,10 +94,23 @@ module DailyImage
       text = generate_text_image(week, dpi: 140)
 
       # 计算放置位置
-      x = (image.width * 0.75).to_i
+      x = (image.width * 0.78).to_i
       y = (image.height * 0.09).to_i
 
       image.draw_image text, x, y, mode: :set
+    end
+
+    # 画出农历信息
+    def draw_lunar_txt(image)
+      text = DailyImage::LunarSolarConverter.date_to_lunar(@date)
+
+      # 获取文字图片
+      text_image = generate_text_image(text)
+
+      x = (@width - text_image.width) / 2
+      y = @height * 0.4
+
+      image.draw_image text_image, x, y, mode: :set
     end
 
     # 画出进度描述信息
@@ -109,7 +123,7 @@ module DailyImage
       text_image = generate_text_image(text)
 
       x = (@width - text_image.width) / 2
-      y = @height * 0.44
+      y = @height * 0.45
 
       image.draw_image text_image, x, y, mode: :set
     end

@@ -34,7 +34,7 @@ module DailyImage
     def configuration
       @config ||= {}.tap do |config|
         config[:bg_color] = bg_color || [255, 255, 255]
-        config[:frame_color] = frame_color || [151, 158, 160]
+        config[:frame_color] = frame_color || [100, 145, 170]
         config[:text_color] = text_color || [100, 145, 170]
         config[:date_color] = date_color || [100, 145, 170]
         config[:unused_color] = unused_color || [200, 205, 215]
