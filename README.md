@@ -76,7 +76,7 @@ Common options:
 
 ## 示例
 
-![](./tmp/daily_2018-09-17.jpg)
+![](./tmp/daily_2018-10-06.jpeg)
 
 ## 感谢🙏
 
@@ -85,6 +85,10 @@ Common options:
 1. 画图使用了 [ruby-vips](https://github.com/jcupitt/ruby-vips)
 
 2. 诗词来自于 [一言·古诗词 API](https://github.com/xenv/gushici)
+
+## 待完成
+
+- [ ] 使用机器学习生成古诗词，替代一言·古诗词API
 
 ## 如何贡献
 
