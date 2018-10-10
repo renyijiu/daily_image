@@ -2,6 +2,8 @@
 
 日签 Or 日历，生成一张指定日期的图片，可作为日历。Just For Fun!👏
 
+[PHP实现版本](https://github.com/dolphin836/make-calendar-image)
+
 ## 使用
 
 如果需要在项目中使用，在你的gemfile中添加以下代码
