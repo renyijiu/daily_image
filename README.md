@@ -3,6 +3,8 @@
 日签 Or 日历，生成一张指定日期的图片，可作为日历。Just For Fun!👏
 
 [PHP实现版本](https://github.com/dolphin836/make-calendar-image)
+[Python版本实现](https://github.com/wnma3mz/Tools/tree/master/daily_image)
+[Android桌面小部件](https://github.com/fairytale110/DailyImageWidget)
 
 ## 使用
 
