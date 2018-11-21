@@ -7,3 +7,4 @@
 /spec/reports/
 /.idea/
 /.DS_Store
+Gemfile.lock
