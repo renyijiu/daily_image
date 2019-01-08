@@ -1,12 +1,13 @@
 PATH
   remote: .
   specs:
-    daily_image (0.1.1)
+    daily_image (0.1.4)
+      ruby-vips (~> 2.0.13)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    ffi (1.9.25)
+    ffi (1.10.0)
     minitest (5.11.3)
     rake (10.5.0)
     ruby-vips (2.0.13)
@@ -20,7 +21,6 @@ DEPENDENCIES
   daily_image!
   minitest (~> 5.0)
   rake (~> 10.0)
-  ruby-vips (~> 2.0.13)
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
