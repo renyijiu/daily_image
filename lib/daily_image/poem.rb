@@ -15,7 +15,7 @@ require "json"
 module DailyImage
   class Poem
 
-    API_URL = "https://api.gushi.ci/all.json"
+    API_URL = "https://v1.jinrishici.com/all.json"
 
     def txt
       get(API_URL)
