@@ -78,6 +78,23 @@ Common options:
 
 ```
 
+### docker 
+
+打包镜像
+
+```shell
+$ docker build . -t ruby-image
+
+```
+
+使用
+
+```shell
+$ docker run -it --mount src="$(pwd)",target=/home,type=bind ruby-image daily_image -s /home/
+```
+
+然后你就可以在当前目录看到新生成的图片文件了
+
 ## 示例
 
 ![](./tmp/daily_2018-10-06.jpeg)
